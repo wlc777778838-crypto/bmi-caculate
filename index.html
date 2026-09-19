@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BMI计算器</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: system-ui, sans-serif;
+        }
+        body {
+            background: #121212;
+            color: #fff;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .card {
+            background: #1e1e1e;
+            padding: 32px;
+            border-radius: 16px;
+            width: 100%;
+            max-width: 420px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 24px;
+            font-size:26px;
+        }
+        .input-item{
+            margin-bottom:18px;
+        }
+        label{
+            display:block;
+            margin-bottom:8px;
+            color:#cccccc;
+        }
+        input{
+            width:100%;
+            padding:12px 14px;
+            border-radius:8px;
+            border:1px solid #444;
+            background:#2d2d2d;
+            color:#fff;
+            font-size:16px;
+        }
+        input:focus{
+            outline:none;
+            border-color:#3b82f6;
+        }
+        button{
+            width:100%;
+            padding:14px;
+            background:#3b82f6;
+            border:none;
+            color:white;
+            font-size:17px;
+            border-radius:8px;
+            cursor:pointer;
+            transition: 0.2s;
+        }
+        button:hover{
+            background:#2563eb;
+        }
+        .result{
+            margin-top:24px;
+            padding:18px;
+            border-radius:10px;
+            background:#292929;
+            text-align:center;
+        }
+        .bmi-value{
+            font-size:32px;
+            font-weight:bold;
+            margin:8px 0;
+        }
+        .tip{
+            font-size:18px;
+        }
+        .info-text{
+            margin-top:20px;
+            font-size:13px;
+            color:#aaa;
+            line-height:1.6;
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h1>BMI 身体质量指数计算器</h1>
+        <div class="input-item">
+            <label>身高（厘米 cm）</label>
+            <input id="height" type="number" placeholder="例如：175">
+        </div>
+        <div class="input-item">
+            <label>体重（公斤 kg）</label>
+            <input id="weight" type="number" placeholder="例如：68">
+        </div>
+        <button onclick="calcBMI()">计算BMI</button>
+        <div class="result" id="resultBox" style="display:none;">
+            <div>你的BMI指数</div>
+            <div class="bmi-value" id="bmiNum"></div>
+            <div class="tip" id="bmiTip"></div>
+        </div>
+        <div class="info-text">
+            BMI参考标准：<br>
+            &lt;18.5：偏瘦｜18.5～23.9：正常<br>
+            24.0～27.9：超重｜≥28：肥胖
+        </div>
+    </div>
+
+<script>
+function calcBMI(){
+    const heightInput = document.getElementById('height');
+    const weightInput = document.getElementById('weight');
+    const resultBox = document.getElementById('resultBox');
+    const bmiNum = document.getElementById('bmiNum');
+    const bmiTip = document.getElementById('bmiTip');
+
+    const h = parseFloat(heightInput.value);
+    const w = parseFloat(weightInput.value);
+
+    if(!h || !w || h <= 0 || w <=0){
+        alert("请输入有效的身高和体重！");
+        return;
+    }
+    //转米
+    const heightM = h / 100;
+    const bmi = (w / (heightM * heightM)).toFixed(2);
+    bmiNum.innerText = bmi;
+
+    let tip = "";
+    if(bmi < 18.5){
+        tip = "偏瘦，建议适当增加营养";
+    }else if(bmi >=18.5 && bmi <=23.9){
+        tip = "✅ 体重正常，继续保持！";
+    }else if(bmi >=24 && bmi <=27.9){
+        tip = "⚠️ 超重，建议控制饮食+运动";
+    }else{
+        tip = "🔴 肥胖，建议咨询医师，调整生活方式";
+    }
+    bmiTip.innerText = tip;
+    resultBox.style.display = "block";
+}
+</script>
+</body>
+</html>
